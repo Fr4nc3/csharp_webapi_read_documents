@@ -1,0 +1,164 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+.search_question_info{
+    position: relative;
+    top:0px
+}
+.search-button {
+    position: relative;
+    top: 10px
+}
+
+.table-sortable > thead > tr > th {
+    cursor: pointer;
+    position: relative;
+}
+
+    .table-sortable > thead > tr > th:after,
+    .table-sortable > thead > tr > th:after,
+    .table-sortable > thead > tr > th:after {
+        content: ' ';
+        position: absolute;
+        height: 0;
+        width: 0;
+        right: 10px; /* (right padding / 2) - arrow width */
+        top: 16px; /* ((padding * 2) + line height) - arrow height */
+        /** As pointed out by Dave Everitt in 
+   * https://css-tricks.com/snippets/css/css-triangle/
+   * The arrow is not an equilateral triangle.
+   * the height is 86.6% of the width.
+   * Notice the above code does not subract the border 
+   * width exactly. It is subtracting
+   * (rounded) border width * 86.6%
+   **/
+    }
+
+    /* Default sortable indicator */
+    .table-sortable > thead > tr > th:after {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #ccc;
+        border-bottom: 0px solid transparent;
+    }
+    /* !Default */
+
+    /* Default sortable indicator:hover */
+    .table-sortable > thead > tr > th:hover:after {
+        border-top: 5px solid #888;
+    }
+    /* !Default:hover */
+
+    /* Ascending sortable indicator */
+    .table-sortable > thead > tr > th.asc:after {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 0px solid transparent;
+        border-bottom: 5px solid #333;
+    }
+
+    .table-sortable > thead > tr > th.asc:hover:after {
+        border-bottom: 5px solid #888;
+    }
+    /* !Ascending */
+
+    /* Descending sortable indicator */
+    .table-sortable > thead > tr > th.desc:after {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #333;
+        border-bottom: 5px solid transparent;
+    }
+/* !Descending */
+
+/* Heading styles */
+h2.page-header {
+    margin-top: 0px;
+    padding-top: 0px;
+    line-height: 15px;
+    vertical-align: middle;
+}
+
+h1 > .divider:before,
+h2 > .divider:before,
+h3 > .divider:before,
+h4 > .divider:before,
+h5 > .divider:before,
+h6 > .divider:before,
+.h1 > .divider:before,
+.h2 > .divider:before,
+.h3 > .divider:before,
+.h4 > .divider:before,
+.h5 > .divider:before,
+.h6 > .divider:before {
+    color: #777;
+    content: "\0223E\0020";
+}

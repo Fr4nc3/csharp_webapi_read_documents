@@ -1,0 +1,163 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Blob Sponge Search";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Azure Search Demo</h2>
+
+        <form method="get" style="display: inline !important;">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg align-middle">
+                        <div class="form-group">
+                            <label for="searchString" class="control-label">
+                                Search <a href="#" data-toggle="tooltip" title="Use double quote to search sentences" style="display: inline !important;" class="search_question_info"><i class="bi bi-question-circle"></i></a>
+                            </label>
+                            <input for="SearchString" class="form-control" value="@Model.SearchParams.SearchString" id="searchString" style="display: inline !important;position: relative;top: 0px;" />
+                            <span validation-for="SearchString" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm align-middle">
+                        <div class="form-group">
+                            <label for="filter" class="control-label">Filter</label>
+                            <select for="filter" asp-items="Model.ContentTypeList" class="form-control" id="filter"></select>
+                            <span validation-for="Filter" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm align-middle">
+                        <div class="form-group">
+                            <label for="sortField" class="control-label">SortField</label>
+                            <select for="sortField" asp-items="Model.SortFieldList" class="form-control" id="sortField"></select>
+                            <span validation-for="sortField" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm align-middle">
+                        <div class="form-group">
+                            <label for="sortDirection" class="control-label">Sort Direction</label>
+                            <select for="sortDirection" asp-items="Model.DirectionList" class="form-control" id="sortDirection"></select>
+                            <span validation-for="sortDirection" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm align-middle">
+                        <div class="form-group">
+                            <label for="searchButton" class="control-label"><br /></label>
+                            <button type="button" class="btn btn-success search-button" style="display: inline !important; position: relative; top: 31px;">
+                                <i class="bi bi-search"></i>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <p class="text-center">@(Model.Results.FromItem) to  @(Model.Results.ToItem)  of  @Model.Results.TotalResults</p>
+        <p>
+
+            <table class="table table-striped table-hover table-sortable">
+                <thead>
+                    <tr>
+                        <th scope="col" class="@(Model.SearchParams.SortField =="DocumentName" ? Model.SearchParams.SortDirection : "") click-table" data-sortfield="@Model.SearchParams.SortField" data-sortdirection="@Model.SearchParams.SortDirection" data-field="DocumentName" data-selected="@(Model.SearchParams.SortField =="DocumentName" ? "true":"false")">
+                            @Html.DisplayNameFor(model => model.SearchResults[0].DocumentName)
+                        </th>
+                        <th scope="col" class="@(Model.SearchParams.SortField =="DocumentType" ? Model.SearchParams.SortDirection : "") click-table" data-sortfield="@Model.SearchParams.SortField" data-sortdirection="@Model.SearchParams.SortDirection" data-field="DocumentType" data-selected="@(Model.SearchParams.SortField =="DocumentType" ? "true":"false")">
+                            @Html.DisplayNameFor(model => model.SearchResults[0].DocumentType)
+                        </th>
+                        <th scope="col" class="@(Model.SearchParams.SortField == "LastModifiedDate" ? Model.SearchParams.SortDirection : "") click-table" data-sortfield="@Model.SearchParams.SortField" data-sortdirection="@Model.SearchParams.SortDirection" data-field="LastModifiedDate" data-selected="@(Model.SearchParams.SortField =="LastModifiedDate" ? "true":"false")">
+                            @Html.DisplayNameFor(model => model.SearchResults[0].LastModifiedDate)
+                        </th>
+                        <th data-field="download"> Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SearchResults == null || Model.SearchResults.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="4">
+                                <div class="alert alert-danger" role="alert">
+                                    No results found
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.SearchResults)
+                        {
+                            <tr scope="row">
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.HighlightedContent))
+                                    {
+                                        <strong> @Html.DisplayFor(modelItem => item.DocumentName)</strong>
+                                        <br />
+                                        @Html.Raw(item.HighlightedContent)
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.DocumentName)
+                                    }
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DocumentType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastModifiedDate)
+                                </td>
+                                <td>
+                                    <a href="@item.DownloadUrl" target="_blank" download="@item.DocumentName" class="btn btn-primary"><i class="bi bi-download"></i></a>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </p>
+        <nav aria-label="for pagination">
+            <ul class="pagination">
+                <li class="page-item @(Model.Results.ShowPrevious ? "" : "disabled") ">
+                    @if (Model.Results.ShowPrevious)
+                    {
+                        <a class="page-link" href="@Model.Results.PreviousUrl">Previous</a>
+                    }
+                    else
+                    {
+                        <span class="page-link">Previous</span>
+                    }
+
+                </li>
+                @foreach (var pageItem in Model.PageItems)
+                {
+                    <li class="page-item @(pageItem.isCurrent ? "active" : "")">
+                        <a href="@(pageItem.url)" class="page-link">@pageItem.number</a>
+                        @if (pageItem.isCurrent)
+                        {
+                            <span class="sr-only">(current)</span>
+                        }
+                    </li>
+                }
+                <li class="page-item  @(Model.Results.ShowNext ? "" : "disabled")">
+                    @if (Model.Results.ShowNext)
+                    {
+                        <a class="page-link" href="@Model.Results.NextUrl">Next</a>
+                    }
+                    else
+                    {
+                        <span class="page-link">Next</span>
+                    }
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
