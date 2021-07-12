@@ -1,6 +1,6 @@
 # csharp_webapi_read_documents
 
-Web API that search fo words on an Azure Container
+Web API that search fo words on an Azure Container .NET COE 5.0 and Razor pages
 
 - Filter content Type Elements is a hack, I had two alternative hardcode the type that I know are available
   or create a list from the results, but I have to force all the elements.
